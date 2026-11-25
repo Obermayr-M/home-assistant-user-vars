@@ -1,0 +1,100 @@
+set:
+  name: Set user variable
+  description: >-
+    Sets a persistent variable for the Home Assistant user who calls
+    this action.
+  fields:
+    key:
+      name: Variable key
+      description: The key of the defined user variable.
+      required: true
+      example: garage_request
+      selector:
+        text:
+    value:
+      name: Value
+      description: >-
+        The new value. The value must match the variable's configured
+        data type.
+      required: true
+      example: true
+      selector:
+        template:
+
+toggle:
+  name: Toggle user variable
+  description: >-
+    Toggles a persistent boolean variable for the Home Assistant user
+    who calls this action.
+  fields:
+    key:
+      name: Variable key
+      description: The key of the boolean user variable.
+      required: true
+      example: garage_request
+      selector:
+        text:
+
+clear:
+  name: Clear user variable
+  description: >-
+    Removes the explicit value for the Home Assistant user who calls
+    this action. The variable then returns its configured default value.
+  fields:
+    key:
+      name: Variable key
+      description: The key of the user variable to reset.
+      required: true
+      example: garage_request
+      selector:
+        text:
+
+get:
+  name: Get user variable
+  description: >-
+    Returns the effective value of a variable for the Home Assistant
+    user who calls this action.
+  fields:
+    key:
+      name: Variable key
+      description: The key of the user variable to read.
+      required: true
+      example: garage_request
+      selector:
+        text:
+
+list_values:
+  name: List user variable values
+  description: >-
+    Returns all explicitly stored user values for a variable.
+    This action is intended for administrators and internal automations.
+  fields:
+    key:
+      name: Variable key
+      description: The key of the user variable to query.
+      required: true
+      example: garage_request
+      selector:
+        text:
+
+clear_for_user:
+  name: Clear user variable for user
+  description: >-
+    Removes an explicitly stored variable value for a specific Home Assistant
+    user. This action is intended for administrators and internal automations.
+  fields:
+    user_id:
+      name: User ID
+      description: The Home Assistant User ID whose value should be cleared.
+      required: true
+      example: b9a73294f597460897bb940700b52083
+      selector:
+        text:
+
+    key:
+      name: Variable key
+      description: The user variable to clear.
+      required: true
+      example: garage_request
+      selector:
+        text:

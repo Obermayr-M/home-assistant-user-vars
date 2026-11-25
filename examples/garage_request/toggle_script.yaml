@@ -1,0 +1,47 @@
+alias: Garage request toggle
+mode: queued
+max: 20
+sequence:
+  - variables:
+      requesting_user_id: "{{ context.user_id }}"
+      requesting_person: >-
+        {{ states.person
+           | selectattr('attributes.user_id', 'defined')
+           | selectattr('attributes.user_id', 'eq', context.user_id)
+           | map(attribute='entity_id')
+           | first
+           | default('') }}
+  - condition: template
+    value_template: "{{ requesting_user_id is not none }}"
+  - action: user_vars.get
+    data:
+      key: garage_request
+    response_variable: garage_request_state
+  - if:
+      - condition: template
+        value_template: "{{ garage_request_state.get('value', false) | bool }}"
+    then:
+      - action: user_vars.clear
+        data:
+          key: garage_request
+      - stop: Request cancelled
+  - condition: template
+    value_template: "{{ requesting_person != '' }}"
+  - variables:
+      requesting_tracker: "{{ state_attr(requesting_person, 'source') }}"
+      user_latitude: "{{ state_attr(requesting_person, 'latitude') }}"
+      user_longitude: "{{ state_attr(requesting_person, 'longitude') }}"
+  - condition: template
+    value_template: >-
+      {{ requesting_tracker not in (none, '')
+         and user_latitude is not none
+         and user_longitude is not none }}
+  - action: user_vars.set
+    data:
+      key: garage_request
+      value: true
+  - action: automation.trigger
+    target:
+      entity_id: automation.garage_request_monitor
+    data:
+      skip_condition: false

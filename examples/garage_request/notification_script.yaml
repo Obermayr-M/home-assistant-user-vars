@@ -1,0 +1,30 @@
+alias: Notify garage request user
+mode: queued
+max: 50
+fields:
+  person_entity:
+    required: true
+    selector:
+      entity:
+        domain: person
+  title:
+    required: true
+    selector:
+      text:
+  message:
+    required: true
+    selector:
+      text:
+        multiline: true
+sequence:
+  - variables:
+      tracker: "{{ state_attr(person_entity, 'source') }}"
+      tracker_object_id: >-
+        {% if tracker %}{{ tracker.split('.', 1)[1] }}{% else %}{{ '' }}{% endif %}
+      notify_action: "{{ 'notify.mobile_app_' ~ tracker_object_id }}"
+  - condition: template
+    value_template: "{{ tracker_object_id != '' }}"
+  - action: "{{ notify_action }}"
+    data:
+      title: "{{ title }}"
+      message: "{{ message }}"

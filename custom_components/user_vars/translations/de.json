@@ -1,0 +1,86 @@
+{
+  "title": "Benutzervariablen",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Benutzervariablen",
+        "description": "Persistente benutzerspezifische Variablen einrichten."
+      }
+    },
+    "abort": {
+      "already_configured": "Benutzervariablen sind bereits eingerichtet."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Benutzervariablen verwalten",
+        "description": "Persistente benutzerspezifische Variablen anlegen, bearbeiten oder löschen.",
+        "data": {
+          "action": "Aktion"
+        },
+        "data_description": {
+          "action": "Gewünschte Aktion auswählen."
+        }
+      },
+      "add_variable": {
+        "title": "Variable hinzufügen",
+        "description": "Eine Variable anlegen, die für jeden Home-Assistant-Benutzer einen eigenen Wert besitzt.",
+        "data": {
+          "key": "Variablenschlüssel",
+          "name": "Anzeigename",
+          "type": "Datentyp",
+          "default": "Standardwert"
+        },
+        "data_description": {
+          "key": "Kleinbuchstaben, Zahlen und Unterstriche verwenden.",
+          "name": "Anzeigename der Variable.",
+          "type": "Boolean, String, Integer oder Number.",
+          "default": "Bei Boolean-Variablen true oder false eingeben."
+        }
+      },
+      "select_edit_variable": {
+        "title": "Variable bearbeiten",
+        "description": "Die zu bearbeitende Variable auswählen.",
+        "data": {
+          "key": "Variable"
+        }
+      },
+      "edit_variable": {
+        "title": "Variable bearbeiten",
+        "description": "{key} wird bearbeitet. Datentyp: {type}. Schlüssel und Datentyp bleiben unverändert.",
+        "data": {
+          "name": "Anzeigename",
+          "default": "Standardwert"
+        }
+      },
+      "select_delete_variable": {
+        "title": "Variable löschen",
+        "description": "Die zu löschende Variable auswählen.",
+        "data": {
+          "key": "Variable"
+        }
+      },
+      "delete_variable": {
+        "title": "Löschen bestätigen",
+        "description": "{key} löschen? Dabei werden auch alle für diese Variable gespeicherten Benutzerwerte gelöscht.",
+        "data": {
+          "confirm": "Löschen bestätigen"
+        }
+      },
+      "about": {
+        "title": "Über User Variables",
+        "description": "User Variables stellt persistente, typisierte und benutzerspezifische Variablen für Home Assistant bereit.\n\nVersion: {version}\nAutor: {author}\nGitHub: {github}\nLizenz: {license}\n\nDefinierte Variablen: {definitions}\nBenutzer mit gespeicherten Werten: {users}\n\nWerte werden automatisch dem angemeldeten Home-Assistant-Benutzer zugeordnet."
+      }
+    },
+    "error": {
+      "invalid_variable": "Die Variable konnte nicht verarbeitet werden. Werte prüfen.",
+      "variable_already_exists": "Eine Variable mit diesem Schlüssel existiert bereits.",
+      "delete_not_confirmed": "Das Löschen muss bestätigt werden."
+    },
+    "abort": {
+      "no_variables": "Es sind keine Variablen definiert.",
+      "variable_not_found": "Die ausgewählte Variable existiert nicht mehr."
+    }
+  }
+}

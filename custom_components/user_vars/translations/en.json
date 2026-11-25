@@ -1,0 +1,86 @@
+{
+  "title": "User Variables",
+  "config": {
+    "step": {
+      "user": {
+        "title": "User Variables",
+        "description": "Set up persistent user-specific variables."
+      }
+    },
+    "abort": {
+      "already_configured": "User Variables is already configured."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Manage user variables",
+        "description": "Create, edit, or delete persistent user-specific variables.",
+        "data": {
+          "action": "Action"
+        },
+        "data_description": {
+          "action": "Select what you want to do."
+        }
+      },
+      "add_variable": {
+        "title": "Add variable",
+        "description": "Create a variable that is available separately for every Home Assistant user.",
+        "data": {
+          "key": "Variable key",
+          "name": "Display name",
+          "type": "Data type",
+          "default": "Default value"
+        },
+        "data_description": {
+          "key": "Use lowercase letters, numbers, and underscores.",
+          "name": "Friendly name shown in Home Assistant.",
+          "type": "Boolean, string, integer, or number.",
+          "default": "For Boolean variables, enter true or false."
+        }
+      },
+      "select_edit_variable": {
+        "title": "Edit variable",
+        "description": "Select the variable to edit.",
+        "data": {
+          "key": "Variable"
+        }
+      },
+      "edit_variable": {
+        "title": "Edit variable",
+        "description": "Editing {key}. Data type: {type}. The key and data type remain unchanged.",
+        "data": {
+          "name": "Display name",
+          "default": "Default value"
+        }
+      },
+      "select_delete_variable": {
+        "title": "Delete variable",
+        "description": "Select the variable to delete.",
+        "data": {
+          "key": "Variable"
+        }
+      },
+      "delete_variable": {
+        "title": "Confirm deletion",
+        "description": "Delete {key}? This also deletes all stored user values for this variable.",
+        "data": {
+          "confirm": "Confirm deletion"
+        }
+      },
+      "about": {
+        "title": "About User Variables",
+        "description": "User Variables provides persistent, typed, user-specific variables for Home Assistant.\n\nVersion: {version}\nAuthor: {author}\nGitHub: {github}\nLicense: {license}\n\nDefined variables: {definitions}\nUsers with stored values: {users}\n\nValues are automatically scoped to the authenticated Home Assistant user."
+      }
+    },
+    "error": {
+      "invalid_variable": "The variable could not be processed. Check the values.",
+      "variable_already_exists": "A variable with this key already exists.",
+      "delete_not_confirmed": "Deletion must be confirmed."
+    },
+    "abort": {
+      "no_variables": "No variables are defined.",
+      "variable_not_found": "The selected variable no longer exists."
+    }
+  }
+}

@@ -1,0 +1,56 @@
+alias: Garage request monitor
+mode: single
+triggers:
+  - trigger: time_pattern
+    seconds: "/10"
+actions:
+  - variables:
+      radius_m: "{{ states('input_number.garage_request_radius') | float(75) }}"
+      timeout_s: "{{ states('input_number.garage_request_timeout') | float(60) * 60 }}"
+  - action: user_vars.list_values
+    data:
+      key: garage_request
+    response_variable: garage_requests
+  - repeat:
+      for_each: >-
+        {{ garage_requests['values'] | selectattr('value', 'eq', true) | list }}
+      sequence:
+        - variables:
+            request_user_id: "{{ repeat.item['user_id'] }}"
+            request_age_s: >-
+              {{ as_timestamp(now()) - as_timestamp(repeat.item['updated_at']) }}
+            requesting_person: >-
+              {{ states.person
+                 | selectattr('attributes.user_id', 'defined')
+                 | selectattr('attributes.user_id', 'eq', repeat.item['user_id'])
+                 | map(attribute='entity_id')
+                 | first
+                 | default('') }}
+        - if:
+            - condition: template
+              value_template: "{{ request_age_s | float >= timeout_s | float }}"
+          then:
+            - action: user_vars.clear_for_user
+              data:
+                user_id: "{{ request_user_id }}"
+                key: garage_request
+        - if:
+            - condition: template
+              value_template: >-
+                {{ request_age_s | float < timeout_s | float
+                   and requesting_person != ''
+                   and state_attr(requesting_person, 'latitude') is not none
+                   and state_attr(requesting_person, 'longitude') is not none }}
+          then:
+            - variables:
+                distance_m: >-
+                  {{ (distance(requesting_person) | float(0) * 1000) | round(1) }}
+            - if:
+                - condition: template
+                  value_template: "{{ distance_m | float <= radius_m | float }}"
+              then:
+                - action: script.open_garage_door
+                - action: user_vars.clear_for_user
+                  data:
+                    user_id: "{{ request_user_id }}"
+                    key: garage_request
