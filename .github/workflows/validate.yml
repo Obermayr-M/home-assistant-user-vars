@@ -1,0 +1,43 @@
+name: Validate
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  hassfest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: home-assistant/actions/hassfest@master
+
+  hacs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hacs/action@main
+        with:
+          category: integration
+
+  syntax:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Compile Python
+        run: python -m py_compile custom_components/user_vars/*.py
+
+      - name: Validate JSON
+        run: |
+          python -m json.tool custom_components/user_vars/manifest.json >/dev/null
+          python -m json.tool custom_components/user_vars/strings.json >/dev/null
+          python -m json.tool custom_components/user_vars/translations/de.json >/dev/null
+          python -m json.tool custom_components/user_vars/translations/en.json >/dev/null
