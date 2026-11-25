@@ -1,10 +1,15 @@
 {
   "domain": "user_vars",
   "name": "User Variables",
-  "version": "0.1.0",
-  "config_flow": true,
-  "iot_class": "local_push",
+  "categories": [
+    "helpers"
+  ],
   "codeowners": [
     "@Obermayr-M"
-  ]
+  ],
+  "config_flow": true,
+  "documentation": "https://github.com/Obermayr-M/home-assistant-user-vars",
+  "iot_class": "calculated",
+  "issue_tracker": "https://github.com/Obermayr-M/home-assistant-user-vars/issues",
+  "version": "0.1.0"
 }
